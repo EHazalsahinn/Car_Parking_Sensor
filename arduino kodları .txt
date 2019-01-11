@@ -1,0 +1,295 @@
+#include <LiquidCrystal.h>
+#define trigger 7  //PÝN GÝRÝÞLERÝ TANIMLANDI.
+#define echo 6
+#define buzzer 9
+int kled=13;
+int sled=8;
+int yled=10;
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // Lcd connections LiquidCrystal(rs, enable, d4, d5, d6, d7)  (ayrýca vss:GND ,VDD:+5V,VO:POT ,RW:GND,A:+5V,K:GND)
+byte customChar9[8] = {
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111
+};
+byte customChar8[8] = {
+  0b11110,
+  0b11110,
+  0b11110,
+  0b11110,
+  0b11110,
+  0b11110,
+  0b11110,
+  0b11110
+};
+byte customChar7[8] = {
+  0b11100,
+  0b11100,
+  0b11100,
+  0b11100,
+  0b11100,
+  0b11100,
+  0b11100,
+  0b11100
+};
+byte customChar6[8] = {
+  0b11000,
+  0b11000,
+  0b11000,
+  0b11000,
+  0b11000,
+  0b11000,
+  0b11000,
+  0b11000
+};
+byte customChar5[8] = {
+  0b10000,
+  0b10000,
+  0b10000,
+  0b10000,
+  0b10000,
+  0b10000,
+  0b10000,
+  0b10000
+};
+byte customChar4[8] = {
+  0b00001,
+  0b00011,
+  0b00011,
+  0b00111,
+  0b00111,
+  0b01111,
+  0b01111,
+  0b11111
+};
+byte customChar3[8] = {
+  0b00000,
+  0b00010,
+  0b00010,
+  0b00110,
+  0b00110,
+  0b01110,
+  0b01110,
+  0b11110
+};
+byte customChar2[8] = {
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00100,
+  0b00100,
+  0b01100,
+  0b01100,
+  0b11100
+};
+byte customChar1[8] = {
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b01000,
+  0b01000,
+  0b11000
+};
+
+byte customChar0[8] = {
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b10000
+};
+
+float sure;
+float mesafe;
+
+void setup() {
+  pinMode(buzzer, OUTPUT);
+
+  lcd.createChar(0, customChar0);
+  lcd.createChar(1, customChar1);
+  lcd.createChar(2, customChar2);
+  lcd.createChar(3, customChar3);
+  lcd.createChar(4, customChar4);
+  lcd.createChar(5, customChar5);//diger nesne baslýyor burdan sonra
+  lcd.createChar(6, customChar6);
+  lcd.createChar(7, customChar7);
+  lcd.createChar(8, customChar8);
+  lcd.createChar(9, customChar9);
+
+   
+  pinMode(kled,OUTPUT);
+  pinMode(sled,OUTPUT);
+  pinMode(yled,OUTPUT);
+ 
+
+  pinMode(trigger, OUTPUT);
+  pinMode(echo, INPUT);
+
+  Serial.begin(9600);
+  lcd.begin(16, 2); // LCD BEGAN
+
+
+  lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("YUKLENIYOR...");//Clear screen
+  
+ 
+  
+  for (int i = 1; i <= 15; i++)
+  {
+
+
+    for (int k = 6; k <= 9; k++)
+    {
+      
+      lcd.setCursor(i, 1); lcd.write((uint8_t)k);
+      delay(100);
+
+    }
+
+  }
+ 
+  lcd.clear();
+}
+
+void loop() {
+  lcd.clear();
+  digitalWrite(trigger, HIGH);
+  delay(1);
+  digitalWrite(trigger, LOW);
+
+  sure = pulseIn(echo, HIGH);
+  mesafe = (sure / 2) / 29;
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  
+  lcd.print("mesafe: "); lcd.print(mesafe);
+  if (mesafe <=10)
+  {
+    tone(buzzer, 1000,500);
+    digitalWrite(kled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(kled, LOW);
+    delay(10);
+    
+    lcd.setCursor(14, 0); lcd.write((uint8_t)9);
+    digitalWrite(buzzer,HIGH);
+    delay(10);
+    digitalWrite(buzzer,LOW);
+    delay(10);
+    digitalWrite(kled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(kled, LOW);
+    delay(10);
+     
+    digitalWrite(buzzer,HIGH);
+    delay(10);
+    digitalWrite(buzzer,LOW);
+    delay(10);
+     digitalWrite(kled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(kled, LOW);
+    delay(10);
+    digitalWrite(buzzer,HIGH);
+    delay(10);
+    digitalWrite(buzzer,LOW);
+     
+    digitalWrite(buzzer,HIGH);
+    delay(10);
+    digitalWrite(buzzer,LOW);
+    delay(10);
+     digitalWrite(kled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(kled, LOW);
+    delay(10);
+    digitalWrite(buzzer,HIGH);
+    delay(10);
+    digitalWrite(buzzer,LOW);
+    delay(10);
+    digitalWrite(kled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(kled, LOW);
+    delay(10);
+    
+    lcd.setCursor(0,1) ;
+
+   lcd.print("Carpmak Uzere"); 
+         
+  }
+  
+  if (mesafe > 10 && mesafe <= 20)
+  {
+    
+    tone(buzzer, 1000,500);
+    digitalWrite(sled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(sled, LOW);
+    delay(10);
+ 
+
+    
+    lcd.setCursor(14, 0); lcd.write((uint8_t)8);
+    digitalWrite(buzzer,HIGH);
+    delay(20);
+    digitalWrite(buzzer,LOW);
+    delay(20);
+    digitalWrite(sled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(sled, LOW);
+    delay(10);
+    lcd.setCursor(0,1) ;
+
+   lcd.print("Tehlikeli Bolge"); 
+
+  }
+  
+  if (mesafe > 20)
+  {
+    
+
+    lcd.setCursor(14, 0); lcd.write((uint8_t)6);
+    digitalWrite(yled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(yled, LOW);
+    delay(10);
+   
+    digitalWrite(yled, HIGH);
+    delay(10);
+ 
+
+    digitalWrite(yled, LOW);
+    delay(10);
+  }
+  
+delay(500);
+ 
+  lcd.clear(); 
+  
+}
